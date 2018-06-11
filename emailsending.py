@@ -4,9 +4,9 @@ gmail_user = 'yu.sun.eusa@gmail.com'
 gmail_password = 'Justdoit!'
 
 sent_from = gmail_user
-to = ['yu.sun.cs@gmail.com']
-subject = 'OMG Super Important Message'
-body = 'Your Sales Order is Here'
+to = ['lihoward07@gmail.com']
+subject = 'Alloy Cube'
+body = 'Your Sales Order is Here Finally'
 
 email_text = """\ 
 From: %s  
