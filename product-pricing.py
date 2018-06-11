@@ -24,8 +24,13 @@ def get_all_product_price(product_list):
 
 print(get_all_product_price(product_list))
 
-def generate_email_body(name, company, school, email, product_list):
-    email_body = "Hi " + name + ", " + "\n" + "    This is Virtual"
+def generate_email_body(place, date, name, company, school, email, product_list):
+    email_body = "Hi " + name + ", " + "\n" + "    This is Virtual Enterprise company Audio Glass." + \
+    "You have made a purchase from our company at the" + place + "trade show. The following is your order:"
+
+    "The total amount of your order is $" + total_price + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again!" + \
+    "Audio Glass Sales Department" + \
+    date
     return email_body
 
 print(generate_email_body("Howard Li", "Audio Glasses Inc.", "Univ HS", "howardli07@gmail.com", product_list))
