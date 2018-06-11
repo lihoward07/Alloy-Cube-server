@@ -1,3 +1,5 @@
+import datetime
+
 pricing_map = {}
 pricing_map["audio glass"] = 249.99
 pricing_map["audio glasses"] = 249.99
@@ -24,16 +26,22 @@ def get_all_product_price(product_list):
 
 print(get_all_product_price(product_list))
 
-def generate_email_body(place, date, name, company, school, email, product_list):
-    email_body = "Hi " + name + ", " + "\n" + "    This is Virtual Enterprise company Audio Glass." + \
-    "You have made a purchase from our company at the" + place + "trade show. The following is your order:"
+def generate_email_body(place, name, company, school, email, product_list):
+    email_body = "Hi " + name + ", " + "\n\n" + \
+                 "This is Virtual Enterprise company Audio Glass. " + \
+                 "You have made a purchase from our company at the " + place + " trade show. The following is your order: \n\n"
 
-    "The total amount of your order is $" + total_price + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again!" + \
-    "Audio Glass Sales Department" + \
-    date
+    product_table = "{0:10} {1:20} {2:15} {3:15} \n".format("Quatity", "Product", "Unit Price", "Total Price")
+    for product in product_list:
+        product_table = product_table + "{0:10} {1:20} {2:15} {3:15} \n".format(str(product[0]), product[1], str(pricing_map[product[1]]), str(pricing_map[product[1]] * product[0]))
+
+    email_body = email_body + product_table + "\n"
+    email_body = email_body + \
+                 "The total amount of your order is $" + str(get_all_product_price(product_list)) + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again! \n\n" + \
+                 "Audio Glass Sales Department \n" + datetime.date.today().strftime("%B %d, %Y")
     return email_body
 
-print(generate_email_body("Howard Li", "Audio Glasses Inc.", "Univ HS", "howardli07@gmail.com", product_list))
+print(generate_email_body("San Diego", "Howard Li", "Audio Glasses Inc.", "Univ HS", "howardli07@gmail.com", product_list))
 
 
 
