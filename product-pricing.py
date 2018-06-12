@@ -1,5 +1,7 @@
 import datetime
 import smtplib
+from flask import Flask
+app = Flask(__name__)
 
 pricing_map = {}
 pricing_map["audio glass"] = 249.99
@@ -45,7 +47,7 @@ def generate_email_body(place, name, company, school, email, product_list):
 
 def send_email(email, email_body):
     gmail_user = 'audioglass0@gmail.com'
-    gmail_password = 'Aaudioglass0'
+    gmail_password = 'paulgeorgePG13'
 
     sent_from = gmail_user
     to = [email]
@@ -83,12 +85,21 @@ def process_and_email(place, name, company, school, email, product_list):
     email_body = generate_email_body(place, name, company, school, email, product_list)
     print(email_body)
     send_email(email, email_body)
-
-#hao jijun
-process_and_email("San Diego", "Howard Li", "Audio Glasses Inc.", "Univ HS", "lihoward07@gmail.com", product_list)
-
-
-words = "My first name is howard. My last name is li. My company name is audio glass. My school is university high school. My email is lihoward07@gmail.com." + \
-        "I want to order 5 units of audio glasses, 3 units of speakers, and 2 units of headphones."
+    total_price = get_all_product_price(product_list) * 1.08
+    return total_price
 
 
+#process_and_email("San Diego", "Howard Li", "Audio Glasses Inc.", "Univ HS", "lihoward07@gmail.com", product_list)
+
+@app.route("/order/<name>/<company>/<school>/<email>/<order>")
+def make_order(name, company, school, email, order):
+    p_list = []
+    records = order.split(";")
+    for r in records:
+        parts = r.split(",")
+        p_list.append([int(parts[0]), parts[1]])
+    price = process_and_email("San Diego", name, company, school, email, p_list);
+    return str(price)
+
+
+app.run(host='0.0.0.0')
