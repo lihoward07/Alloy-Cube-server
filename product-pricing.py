@@ -4,30 +4,26 @@ from flask import Flask
 app = Flask(__name__)
 
 pricing_map = {}
-pricing_map["audio glass"] = 249.99
-pricing_map["audio glasses"] = 249.99
-pricing_map["insurance"] = 50
-pricing_map["speaker"] = 50
-pricing_map["speakers"] = 50
-pricing_map["earphone"] = 20
-pricing_map["earphones"] = 20
-pricing_map["headphone"] = 20
-pricing_map["headphones"] = 20
-pricing_map["sun glasses"] = 50
-pricing_map["sunglasses"] = 50
+pricing_map["Audio Glass"] = 249.99
+pricing_map["Audio Glasses"] = 249.99
+pricing_map["Insurance"] = 50
+pricing_map["Speaker"] = 50
+pricing_map["Speakers"] = 50
+pricing_map["Headphones"] = 20
+pricing_map["Headphone"] = 20
+pricing_map["Sunglasses"] = 50
 
-product_list = []
-product_list.append([2, "audio glasses"])
-product_list.append([1, "insurance"])
-product_list.append([3, "headphones"])
+def get_price(product):
+    toSearch = product
+    if "(" in product:
+        toSearch = product.split("(")[0]
+    return pricing_map[toSearch]
 
 def get_all_product_price(product_list):
     total_price = 0
     for product in product_list:
-        total_price = total_price + product[0] * pricing_map[product[1]]
-    return total_price
-
-print(get_all_product_price(product_list))
+        total_price = total_price + product[0] * get_price(product[1])
+    return round(total_price, 2)
 
 def generate_email_body(place, name, company, school, email, product_list):
     email_body = "Hi " + name + ", " + "\n\n" + \
@@ -36,12 +32,12 @@ def generate_email_body(place, name, company, school, email, product_list):
 
     product_table = "{0:20} | {1:20} | {2:15} | {3:15} \n".format("Quatity", "Product", "Unit Price", "Total Price")
     for product in product_list:
-        product_table = product_table + "{0:20} | {1:20} | {2:15} | {3:15} \n".format(str(product[0]), product[1], str(pricing_map[product[1]]), str(pricing_map[product[1]] * product[0]))
+        product_table = product_table + "{0:20} | {1:20} | {2:15} | {3:15} \n".format(str(product[0]), product[1], str(get_price(product[1])), str(get_price(product[1]) * product[0]))
 
-    product_table = product_table + "{0:10} {1:20} {2:15} {3:15} \n".format("Tax", "", "", str(get_all_product_price(product_list) * 0.08))
+    product_table = product_table + "{0:10} {1:20} {2:15} {3:15} \n".format("Tax", "", "", str(round(get_all_product_price(product_list) * 0.08), 2))
     email_body = email_body + product_table + "\n"
     email_body = email_body + \
-                 "The total amount of your order is $" + str(get_all_product_price(product_list) * 1.08) + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again! \n\n" + \
+                 "The total amount of your order is $" + str(round(get_all_product_price(product_list) * 1.08, 2)) + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again! \n\n" + \
                  "Audio Glass Sales Department \n" + datetime.date.today().strftime("%B %d, %Y")
     return email_body
 
@@ -86,7 +82,7 @@ def process_and_email(place, name, company, school, email, product_list):
     print(email_body)
     send_email(email, email_body)
     total_price = get_all_product_price(product_list) * 1.08
-    return total_price
+    return round(total_price, 2)
 
 
 #process_and_email("San Diego", "Howard Li", "Audio Glasses Inc.", "Univ HS", "lihoward07@gmail.com", product_list)
