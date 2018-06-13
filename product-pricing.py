@@ -34,7 +34,7 @@ def generate_email_body(place, name, company, school, email, product_list):
     for product in product_list:
         product_table = product_table + "{0:20} | {1:20} | {2:15} | {3:15} \n".format(str(product[0]), product[1], str(get_price(product[1])), str(get_price(product[1]) * product[0]))
 
-    product_table = product_table + "{0:10} {1:20} {2:15} {3:15} \n".format("Tax", "", "", str(round(get_all_product_price(product_list) * 0.08), 2))
+    product_table = product_table + "{0:10} {1:20} {2:15} {3:15} \n".format("Tax", "", "", str(round(get_all_product_price(product_list) * 0.08, 2)))
     email_body = email_body + product_table + "\n"
     email_body = email_body + \
                  "The total amount of your order is $" + str(round(get_all_product_price(product_list) * 1.08, 2)) + ". Please make your payment within 30 days. Thank you so much for the business. We hope to see you again! \n\n" + \
